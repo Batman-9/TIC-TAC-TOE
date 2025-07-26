@@ -1,0 +1,204 @@
+body {
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    height: 70vh;
+}
+
+.game {
+    height: 60vmin;
+    width: 60vmin;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5vmin;
+    perspective: 1000px;
+}
+
+.box {
+    background-color: rgba(30, 30, 30, 0.8);
+    height: 18vmin;
+    width: 18vmin;
+    border-radius: 1rem;
+    border: 2px solid #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 8vmin;
+    color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.box:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    background-color: rgba(40, 40, 40, 0.9);
+}
+
+.box.x {
+    color: #F44336;
+    text-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+}
+
+.box.o {
+    color: #4CAF50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+}
+
+.box.winner {
+    animation: winnerPulse 1.5s infinite;
+}
+
+@keyframes winnerPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 215, 0, 0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 215, 0, 0.4); }
+}
+
+.rgb-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        #1a1a2e, #16213e, #0f3460, #1f1f30, #1a1a2e);
+    background-size: 400% 400%;
+    animation: rgbGlow 20s ease infinite;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+@keyframes rgbGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration) infinite ease-in-out;
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: var(--opacity); transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+#reset-button, #new-btn {
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    background-color: #1a1a2e;
+    color: #fff;
+    border-radius: 50px;
+    border: 2px solid #4CAF50;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#reset-button::before, #new-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.4), transparent);
+    transition: 0.5s;
+    z-index: -1;
+}
+
+#reset-button:hover, #new-btn:hover {
+    background-color: #16213e;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+#reset-button:hover::before, #new-btn:hover::before {
+    left: 100%;
+}
+
+#msg {
+    color: #ffffc7;
+    font-size: 5vmin;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 199, 0.7);
+    animation: textGlow 2s infinite alternate;
+}
+
+@keyframes textGlow {
+    from { text-shadow: 0 0 10px rgba(255, 255, 199, 0.7); }
+    to { text-shadow: 0 0 20px rgba(255, 255, 199, 0.9), 0 0 30px rgba(255, 255, 199, 0.5); }
+}
+
+.msg-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+h1 {
+    color: white;
+    font-size: 4vmin;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+    animation: titleUnderline 3s infinite;
+}
+
+@keyframes titleUnderline {
+    0% { width: 0; left: 50%; }
+    50% { width: 100px; left: 50%; }
+    100% { width: 0; left: 50%; }
+}
